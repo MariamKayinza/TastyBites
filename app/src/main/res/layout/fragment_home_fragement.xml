@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragement">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/home_welcome"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_welcome"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="30dp"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+
+                            />
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_welcome_text"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/grey"
+                            />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        ></TextView>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/img_launcher_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:elevation="5dp"
+                        android:maxWidth="50dp"
+                        android:maxHeight="50dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/profile_picture_2"
+                        app:shapeAppearance="?attr/actionButtonStyle"
+                        app:shapeAppearanceOverlay="@style/imageViewRounded"
+                        app:strokeColor="@android:color/white" />
+
+                </LinearLayout>
+
+                <!--    // search input field-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:layout_marginTop="20dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:background="@color/light_grey"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        >
+
+                        <SearchView
+                            android:id="@+id/SearchView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/light_grey"
+                            android:backgroundTint="@color/light_grey"
+                            android:iconifiedByDefault="false"
+                            android:queryHint="Search View"
+                            android:theme="@style/Widget.AppCompat.SearchView"
+
+                            />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_filter"
+                        android:padding="10dp"
+                        android:layout_gravity="center"
+                        android:paddingHorizontal="5dp"
+                        android:background="@drawable/mybutton"
+                        />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@color/white"
+                    android:layout_marginTop="20dp"
+                    >
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@color/white"
+                        android:fillViewport="true"
+                        android:scrollbars="none">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center"
+                                android:background="@color/white"
+                                >
+
+                                <Button
+                                    android:id="@+id/btn_category_1"
+                                    android:layout_width="20dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/categorybutton"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:layout_marginRight="10dp"
+                                    android:text="@string/category_1"
+                                    android:textColor="@color/white"
+
+                                    android:textStyle="bold" />
+
+                                <Button
+                                    android:id="@+id/btn_category_2"
+                                    android:layout_width="20dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/categorybutton"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:text="@string/category_2"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:layout_marginRight="10dp"
+
+                                    />
+                                <Button
+                                    android:id="@+id/btn_category_3"
+                                    android:layout_width="20dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/categorybutton"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:text="@string/category_3"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:layout_marginRight="10dp"
+
+                                    />
+                                <Button
+                                    android:id="@+id/btn_category_4"
+                                    android:layout_width="20dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/categorybutton"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:text="@string/category_4"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:layout_marginRight="10dp"
+
+                                    />
+
+
+
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </HorizontalScrollView>
+                </RelativeLayout>
+
+                <!--    .................................GRID LAYOUT......................................... -->
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:background="@color/light_grey_2"
+                    android:paddingHorizontal="5dp"
+
+                    >
+
+                    <!--    ............................... CARD VIEW1 ........................... -->
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/myresponse_recycler_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+<!--                    &lt;!&ndash;  ............................CARD VIEW_2.................................... &ndash;&gt;-->
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_columnWeight="1"-->
+<!--                        android:elevation="5dp"-->
+<!--                        android:radius="5dp"-->
+<!--                        android:background="@color/white"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        >-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:background="@color/white"-->
+<!--                            android:layout_gravity="center"-->
+
+<!--                            >-->
+<!--                            <ImageView-->
+<!--                                android:layout_width="120dp"-->
+<!--                                android:layout_height="120dp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:scaleType="centerCrop"-->
+<!--                                android:src="@drawable/cheesepizza" />-->
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:background="@color/white"-->
+<!--                                android:paddingLeft="20dp"-->
+<!--                                android:layout_marginBottom="20dp"-->
+
+<!--                                >-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:background="@color/white"-->
+<!--                                    android:layout_gravity="center"-->
+
+<!--                                    >-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:textColor="@color/grey"-->
+<!--                                        android:text="@string/product_2" />-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:text="@string/price_2"-->
+<!--                                        android:textStyle="bold"/>-->
+<!--                                </LinearLayout>-->
+<!--                                <ImageView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_marginTop="20dp"-->
+<!--                                    android:background="@drawable/circle_icon"-->
+<!--                                    android:padding="10dp"-->
+<!--                                    android:layout_marginLeft="10dp"-->
+<!--                                    android:layout_marginRight="5dp"-->
+<!--                                    android:layout_marginBottom="5dp"-->
+
+<!--                                    android:src="@drawable/ic_plus"-->
+
+<!--                                    />-->
+<!--                            </LinearLayout>-->
+<!--                        </LinearLayout>-->
+<!--                    </androidx.cardview.widget.CardView>-->
+                    <!--   .................................CARD VIEW_3..........................................-->
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_columnWeight="1"-->
+<!--                        android:elevation="5dp"-->
+<!--                        android:radius="5dp"-->
+<!--                        android:background="@color/white"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:layout_marginRight="10dp"-->
+<!--                        >-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:background="@color/white"-->
+<!--                            android:layout_gravity="center"-->
+
+<!--                            >-->
+<!--                            <ImageView-->
+<!--                                android:layout_width="120dp"-->
+<!--                                android:layout_height="120dp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:scaleType="centerCrop"-->
+<!--                                android:src="@drawable/chickenburger" />-->
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:background="@color/white"-->
+<!--                                android:paddingLeft="20dp"-->
+<!--                                android:layout_marginBottom="20dp"-->
+
+<!--                                >-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:background="@color/white"-->
+<!--                                    android:layout_gravity="center"-->
+
+<!--                                    >-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:textColor="@color/grey"-->
+<!--                                        android:text="@string/product_3" />-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:text="@string/price_3"-->
+<!--                                        android:textStyle="bold"/>-->
+<!--                                </LinearLayout>-->
+<!--                                <ImageView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_marginTop="20dp"-->
+<!--                                    android:background="@drawable/circle_icon"-->
+<!--                                    android:padding="10dp"-->
+<!--                                    android:layout_marginLeft="10dp"-->
+<!--                                    android:layout_marginRight="5dp"-->
+<!--                                    android:layout_marginBottom="5dp"-->
+
+<!--                                    android:src="@drawable/ic_plus"-->
+
+<!--                                    />-->
+<!--                            </LinearLayout>-->
+<!--                        </LinearLayout>-->
+<!--                    </androidx.cardview.widget.CardView>-->
+
+                    <!--  .................................CARD VIEW_4..........................................-->
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_columnWeight="1"-->
+<!--                        android:elevation="5dp"-->
+<!--                        android:radius="5dp"-->
+<!--                        android:background="@color/white"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        >-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:background="@color/white"-->
+<!--                            android:layout_gravity="center"-->
+
+<!--                            >-->
+<!--                            <ImageView-->
+<!--                                android:layout_width="120dp"-->
+<!--                                android:layout_height="120dp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:scaleType="centerCrop"-->
+<!--                                android:src="@drawable/chickenburger" />-->
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:background="@color/white"-->
+<!--                                android:paddingLeft="20dp"-->
+<!--                                android:layout_marginBottom="20dp"-->
+
+<!--                                >-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:background="@color/white"-->
+<!--                                    android:layout_gravity="center"-->
+
+<!--                                    >-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:textColor="@color/grey"-->
+<!--                                        android:text="@string/product_4" />-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:text="@string/price_4"-->
+<!--                                        android:textStyle="bold"/>-->
+<!--                                </LinearLayout>-->
+<!--                                <ImageView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_marginTop="20dp"-->
+<!--                                    android:background="@drawable/circle_icon"-->
+<!--                                    android:padding="10dp"-->
+<!--                                    android:layout_marginLeft="8dp"-->
+<!--                                    android:layout_marginRight="5dp"-->
+<!--                                    android:layout_marginBottom="5dp"-->
+
+
+<!--                                    android:src="@drawable/ic_plus"-->
+
+<!--                                    />-->
+<!--                            </LinearLayout>-->
+<!--                        </LinearLayout>-->
+<!--                    </androidx.cardview.widget.CardView>-->
+
+                    <!-- ......CARD VIEW 5................ -->
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_columnWeight="1"-->
+<!--                        android:elevation="5dp"-->
+<!--                        android:radius="5dp"-->
+<!--                        android:background="@color/white"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:layout_marginRight="10dp"-->
+<!--                        >-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:background="@color/white"-->
+<!--                            android:layout_gravity="center"-->
+
+<!--                            >-->
+<!--                            <ImageView-->
+<!--                                android:layout_width="120dp"-->
+<!--                                android:layout_height="120dp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:scaleType="centerCrop"-->
+<!--                                android:src="@drawable/meatpizza" />-->
+
+
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:background="@color/white"-->
+<!--                                android:paddingLeft="20dp"-->
+<!--                                android:layout_marginBottom="20dp"-->
+
+<!--                                >-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:background="@color/white"-->
+<!--                                    android:layout_gravity="center"-->
+
+<!--                                    >-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:textColor="@color/grey"-->
+<!--                                        android:text="@string/product_1" />-->
+<!--                                    <TextView-->
+<!--                                        android:layout_marginTop="20dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_columnWeight="1"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:text="@string/price_1"-->
+<!--                                        android:textStyle="bold"/>-->
+<!--                                </LinearLayout>-->
+<!--                                <ImageView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_marginTop="20dp"-->
+<!--                                    android:background="@drawable/circle_icon"-->
+<!--                                    android:padding="10dp"-->
+<!--                                    android:layout_marginLeft="10dp"-->
+<!--                                    android:layout_marginRight="5dp"-->
+<!--                                    android:layout_marginBottom="5dp"-->
+
+<!--                                    android:src="@drawable/ic_plus"-->
+
+<!--                                    />-->
+<!--                            </LinearLayout>-->
+<!--                        </LinearLayout>-->
+<!--                    </androidx.cardview.widget.CardView>-->
+
+
+
+                </GridLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    </RelativeLayout>
+
+</FrameLayout>

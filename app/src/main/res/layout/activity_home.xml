@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tasty2"
+                android:id="@+id/logoImg"
+                android:padding="5dp"
+                />
+
+            <TextView
+                android:id="@+id/topBarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@id/logoImg"
+                android:fontFamily="sans-serif"
+                android:text="Tasty Bites"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginRight="120dp"
+
+                android:textStyle="bold" />
+
+
+
+<!--            ALGIN IMAGE -->
+            <ImageButton
+                style="@style/Widget.MaterialComponents.Button"
+                android:id="@+id/account_status_login_or_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_person"
+                android:layout_marginLeft="0dp"
+
+
+
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+<!--    -->
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="MainActivity"
+        tools:showIn="@layout/activity_main"
+        android:padding="1dp"
+        android:id="@+id/fragmentlayout"
+        android:layout_above="@+id/bottomNavigationView"
+        android:layout_below="@+id/topBar"
+
+
+        >
+
+    </FrameLayout>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottomNavigationView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_alignParentBottom="true"
+    android:background="@color/white"
+    app:itemIconTint="@color/black"
+    app:itemTextColor="@color/black"
+    app:menu="@menu/bottom_navigation_menu"
+    style="@style/Widget.App.BottomNavigationView"
+
+        />
+
+</RelativeLayout>

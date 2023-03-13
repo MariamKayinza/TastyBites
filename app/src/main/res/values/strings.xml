@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">TastyBites</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="btn_get_started">Get Started</string>
+    <string name="get_started">Delicious Food </string>
+    <string name="get_started_text">Order your food from the best  </string>
+    <string name="get_started_text2"> restaurants in your area</string>
+
+    <!--    home strings-->
+    <string name="home_welcome">Hello, Guest</string>
+    <string name="home_welcome_text">What do you want today</string>
+
+    <!--     categories strings-->
+    <string name="category_1">Pizza</string>
+    <string name="category_2">Burger</string>
+    <string name="category_3">Pasta</string>
+    <string name="category_4">Salad</string>
+    <string name="category_5">Chicken</string>
+
+    <!--- product strings -->
+    <!--    mixed pizza-->
+    <!--    chicken pizza-->
+    <!--    cheese pizza-->
+    <!--    chicken burger-->
+    <!--    cheese burger-->
+    <string name="product_1">Mixed Pizza</string>
+    <string name="product_2">Chicken Pizza</string>
+    <string name="product_3">Cheese Pizza</string>
+    <string name="product_4">Chicken Burger</string>
+    <string name="product_5">Cheese Burger</string>
+    <string name="product_6">Pasta</string>
+    <!--! product price -->
+    <string name="price_1">UGX 30,000</string>
+    <string name="price_2">UGX 25,000</string>
+    <string name="price_3">UGX 20,000</string>
+    <string name="price_4">UGX 35,000</string>
+    <string name="price_5">UGX 30,000</string>
+    <string name="price_6">UGX 40,000</string>
+
+    <!-- login strings -->
+    <string name="login_username">Username</string>
+
+
+    <!-- buttom navigation strings -->
+    <string name="home">Home</string>
+    <string name="list">Categories</string>
+    <string name="cart">Cart</string>
+    <string name="person">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Account -->
+
+
+</resources>
