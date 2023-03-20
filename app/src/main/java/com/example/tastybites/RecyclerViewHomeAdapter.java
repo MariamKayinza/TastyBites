@@ -68,19 +68,31 @@ public class RecyclerViewHomeAdapter extends RecyclerView.Adapter<RecyclerViewHo
         holder.setPrice_field(retrievedResponses.get(position).getPrice());
         Glide.with(holder.itemView.getContext()).load(retrievedResponses.get(position).getImage()).into(holder.image_field);
         // set onclick listener using the listener in viewholder
+        holder.image_field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(v.getContext(), StoryActivity.class);
 
-//        holder.image_field.setOnClickListener(holder.listener);
-//        holder.image_field.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                int postion = holder.getAdapterPosition();
-//                Intent intent = new Intent(context,RestaurantDetail.class);
-//                context.startActivity(intent);
+                if (v.getContext() != null) {
+                    Intent intent = new Intent(v.getContext(), FoodDetail.class);
+                    intent.putExtra("foodid",retrievedResponses.get(position).getId());
+                    intent.putExtra("foodname",retrievedResponses.get(position).getName());
+                    intent.putExtra("foodimage",retrievedResponses.get(position).getImage());
+                 intent.putExtra("foodprice",retrievedResponses.get(position).getPrice());
+                 intent.putExtra("foodquantity",retrievedResponses.get(position).getQuantity());
 //
-//
-//            }
-//        });
 
+                    v.getContext().startActivity(intent);
+                }
+//
+// Intent intent=new Intent(context,Main2Activity.class);
+//                 intent.putExtra("imagename",temp.getImgname());
+//                 intent.putExtra("header",temp.getHeader());
+//                 intent.putExtra("desc",temp.getDesc());
+//                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                 context.startActivity(intent);
+           }
+       });
 
 
 
@@ -116,7 +128,7 @@ public class RecyclerViewHomeAdapter extends RecyclerView.Adapter<RecyclerViewHo
             name_field = itemView.findViewById(R.id.name_field_home);
             price_field = itemView.findViewById(R.id.price_field_home);
             image_field = itemView.findViewById(R.id.image_field_home);
-            card_view = itemView.findViewById(R.id.card_view);
+//            card_view = itemView.findViewById(R.id.card_view);
 
             image_field.setOnClickListener(new View.OnClickListener() {
                 @Override

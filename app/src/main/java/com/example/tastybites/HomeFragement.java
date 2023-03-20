@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class HomeFragement extends Fragment  {
     private RecyclerView response_recycler_view;
 
     String endpoint = MainActivity.Constants.API_ENDPOINT;
+
 
     public HomeFragement() {
         // Required empty public constructor
@@ -103,15 +105,15 @@ public class HomeFragement extends Fragment  {
 
         TextView textView = view.findViewById(R.id.home_welcome);
         response_recycler_view = view.findViewById(R.id.myresponse_recycler_view);
-        int numberOfColumns = 2;
-//        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        response_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns));
-
-
+//        int numberOfColumns = 2;
+////        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+//        response_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        response_recycler_view.setLayoutManager(gridLayoutManager);
 
 
         prefs = requireContext().getSharedPreferences("user", MODE_PRIVATE);
-        String restoredText = prefs.getString( "signature", null);
+        String restoredText = prefs.getString("signature", null);
         String firstName = prefs.getString("firstName", null);
 
         edit = prefs.edit();
@@ -128,11 +130,41 @@ public class HomeFragement extends Fragment  {
             textView.setText("Welcome " + firstName);
 
         }
+        SearchView searchView = view.findViewById(R.id.SearchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // No action needed on submit
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filter the list based on the search query
+//                filteredList.clear();
+//                if (newText.isEmpty()) {
+//                    filteredList.addAll(itemList);
+//                } else {
+//                    for (Repo item : itemList) {
+//                        if (item.getName().toLowerCase().contains(newText.toLowerCase())) {
+//                            filteredList.add(item);
+//                        }
+//                    }
+//                }
+//                adapter.notifyDataSetChanged();
+//                filterList(newText);
+                return true;
+            }
+        });
+
 
         VolleyMyGet();
 
         return view;
     }
+
+
+
     public void VolleyMyGet(){
         String url =  endpoint + "/shopping/all-restaurants/12003";
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -150,6 +182,7 @@ public class HomeFragement extends Fragment  {
 //                                Toast.makeText(getActivity(), "i"+i, Toast.LENGTH_SHORT).show();
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 JSONArray food = jsonObject.getJSONArray("foods");
+//                                String description = jsonObject.getString("description");
 
                                 // loop through the food array
                                 for (int j = 0; j < food.length(); j++) {
@@ -158,13 +191,13 @@ public class HomeFragement extends Fragment  {
                                     String name = foodObject.getString("name");
                                     int price = foodObject.getInt("price");
                                     JSONArray images = foodObject.getJSONArray("images");
+                                    int quantity = 1;
                                     // convert price to string
                                     String priceString = Integer.toString(price);
-                                    priceString = "UGX " + priceString;
+//                                    priceString = "UGX " + priceString;
 
                                     String image = images.getString(0);
-                                    jsonResponses.add(new Repo(id, name, priceString, image));
-//                                    Toast.makeText(getActivity(), "name"+price, Toast.LENGTH_SHORT).show();
+                                    jsonResponses.add(new Repo(id, name, priceString, image, quantity));
                                     response_recycler_view.setAdapter(new RecyclerViewHomeAdapter(jsonResponses, getActivity()));
 
                                 }

@@ -7,17 +7,30 @@ public class Repo {
         private String price;
         private String image;
 
-        public Repo(String id, String name, String price, String image) {
+        private  String description;
+
+        private int quantity;
+
+        public Repo(String id, String name, String price, String image, int quantity) {
                 this.id = id;
                 this.name = name;
                 this.price = price;
                 this.image = image;
+                this.quantity = quantity;
+//                this.description = description;
 
         }
 
         public String getId() {
                 return id;
         }
+
+//        public String getDescription(){return description;}
+//
+//        public void setDescription(String description)
+//        {
+//                this.description = description;
+//        }
 
         public void setId(String id) {
                 this.id = id;
@@ -41,6 +54,13 @@ public class Repo {
         }
         public void setImage(String image) {
                 this.image = image;
+        }
+
+        public int getQuantity() {
+                return quantity;
+        }
+        public void setQuantity(int quantity) {
+                this.quantity = quantity;
         }
 
         @Override

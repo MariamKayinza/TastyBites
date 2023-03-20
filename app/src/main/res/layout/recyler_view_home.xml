@@ -25,6 +25,7 @@
         android:background="@color/white"
         android:layout_gravity="center"
 
+
         >
         <ImageView
             android:id="@+id/image_field_home"
@@ -69,6 +70,7 @@
                     android:textColor="@color/black"
                     android:text="@string/price_1"
                     android:textStyle="bold"/>
+
             </LinearLayout>
             <ImageView
                 android:layout_width="wrap_content"
@@ -85,6 +87,7 @@
 
                 />
         </LinearLayout>
+
     </LinearLayout>
 
     </androidx.cardview.widget.CardView>
