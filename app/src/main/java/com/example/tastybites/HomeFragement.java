@@ -126,7 +126,6 @@ public class HomeFragement extends Fragment  {
             // captialized first letter of first name
 //                    String firstName = prefs.getString("firstName", null);
             firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
-            Toast.makeText(getActivity(), "Text!" + firstName, Toast.LENGTH_SHORT).show();
             textView.setText("Welcome " + firstName);
 
         }
@@ -194,10 +193,11 @@ public class HomeFragement extends Fragment  {
                                     int quantity = 1;
                                     // convert price to string
                                     String priceString = Integer.toString(price);
+                                    String totalprice = priceString;
 //                                    priceString = "UGX " + priceString;
 
                                     String image = images.getString(0);
-                                    jsonResponses.add(new Repo(id, name, priceString, image, quantity));
+                                    jsonResponses.add(new Repo(id, name, priceString, image, quantity, totalprice));
                                     response_recycler_view.setAdapter(new RecyclerViewHomeAdapter(jsonResponses, getActivity()));
 
                                 }

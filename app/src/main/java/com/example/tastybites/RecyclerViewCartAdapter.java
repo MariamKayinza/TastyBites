@@ -22,17 +22,13 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
     private SelectListener listenerinterface;
 
 
-
-
-    public RecyclerViewCartAdapter(List<Repo>  products, FragmentActivity activity) {
+    public RecyclerViewCartAdapter(List<Repo> products, FragmentActivity activity) {
         this.retrievedResponses = products;
         this.listenerinterface = listenerinterface;
         this.context = context;
 
 
     }
-
-
 
 
     @NonNull
@@ -48,6 +44,8 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
     public void onBindViewHolder(@NonNull RecyclerViewCartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.setName_field(retrievedResponses.get(position).getName());
         holder.setPrice_field(retrievedResponses.get(position).getPrice());
+        holder.setQuantity_field(retrievedResponses.get(position).getQuantity());
+        holder.setTotalprice_field(retrievedResponses.get(position).getTotalprice());
         Glide.with(holder.itemView.getContext()).load(retrievedResponses.get(position).getImage()).into(holder.image_field);
         // set onclick listener using the listener in viewholder
 //        holder.image_field.setOnClickListener(new View.OnClickListener() {
@@ -77,17 +75,11 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
 //        });
 
 
-
-
-
-
-
-
     }
 
     @Override
     public int getItemCount() {
-        return  retrievedResponses.size();
+        return retrievedResponses.size();
     }
 
     @Override
@@ -107,13 +99,18 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
         private TextView name_field;
         private TextView price_field;
         private ImageView image_field;
+        private TextView totalprice_field;
+
+        TextView numItems;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 //            id_field = itemView.findViewById(R.id.id_field);
             name_field = itemView.findViewById(R.id.txtTitleCart);
-            price_field = itemView.findViewById(R.id.totalEachItem);
+            price_field = itemView.findViewById(R.id.feeEachItem);
+            numItems = itemView.findViewById(R.id.numItems);
+            totalprice_field = itemView.findViewById(R.id.totalEachItem);
             image_field = itemView.findViewById(R.id.picCart);
 //            card_view = itemView.findViewById(R.id.card_view);
 
@@ -142,8 +139,13 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
             Glide.with(itemView.getContext()).load(image).into(image_field);
         }
 
+        public void setQuantity_field(Integer quantity) {
+            numItems.setText(quantity.toString());
+        }
 
-
+        public void setTotalprice_field(String totalprice) {
+            totalprice_field.setText(totalprice);
+        }
 
 
     }

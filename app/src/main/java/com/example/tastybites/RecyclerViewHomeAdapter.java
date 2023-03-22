@@ -64,11 +64,13 @@ public class RecyclerViewHomeAdapter extends RecyclerView.Adapter<RecyclerViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHomeAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
         holder.setName_field(retrievedResponses.get(position).getName());
         holder.setPrice_field(retrievedResponses.get(position).getPrice());
         Glide.with(holder.itemView.getContext()).load(retrievedResponses.get(position).getImage()).into(holder.image_field);
         // set onclick listener using the listener in viewholder
         holder.image_field.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(v.getContext(), StoryActivity.class);
@@ -80,6 +82,9 @@ public class RecyclerViewHomeAdapter extends RecyclerView.Adapter<RecyclerViewHo
                     intent.putExtra("foodimage",retrievedResponses.get(position).getImage());
                  intent.putExtra("foodprice",retrievedResponses.get(position).getPrice());
                  intent.putExtra("foodquantity",retrievedResponses.get(position).getQuantity());
+                 intent.putExtra("foodtotalprice",retrievedResponses.get(position).getTotalprice());
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    v.getContext().startActivity(intent);
 //
 
                     v.getContext().startActivity(intent);

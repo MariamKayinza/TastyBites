@@ -6,18 +6,17 @@ public class Repo {
         private String  name;
         private String price;
         private String image;
-
-        private  String description;
+        private String totalprice;
 
         private int quantity;
 
-        public Repo(String id, String name, String price, String image, int quantity) {
+        public Repo(String id, String name, String price, String image, int quantity, String totalprice)  {
                 this.id = id;
                 this.name = name;
                 this.price = price;
                 this.image = image;
                 this.quantity = quantity;
-//                this.description = description;
+                this.totalprice = totalprice;
 
         }
 
@@ -25,12 +24,13 @@ public class Repo {
                 return id;
         }
 
-//        public String getDescription(){return description;}
-//
-//        public void setDescription(String description)
-//        {
-//                this.description = description;
-//        }
+        public String getTotalprice() {
+                return totalprice;
+        }
+
+        public void setTotalprice(String totalprice) {
+                this.totalprice = totalprice;
+        }
 
         public void setId(String id) {
                 this.id = id;

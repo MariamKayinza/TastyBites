@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
  public static int SPLASH_SCREEN = 3000;
  BottomNavigationView bottomNavigationView;
     public class Constants {
-        public static final String API_ENDPOINT = "http://192.168.236.190:8000";
+        public static final String API_ENDPOINT = "http://192.168.180.190:8000";
     }
 
 

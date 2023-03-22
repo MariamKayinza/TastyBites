@@ -14,6 +14,10 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +47,10 @@ public class FoodDetail extends AppCompatActivity {
         String foodId = getIntent().getStringExtra("foodid");
         String foodName = getIntent().getStringExtra("foodname");
         String foodPrice = getIntent().getStringExtra("foodprice");
-        String foodDescription = getIntent().getStringExtra("description");
+
         String foodImage = getIntent().getStringExtra("foodimage");
         int foodQuantity = getIntent().getIntExtra("foodquantity", 0);
+        String foodTotalprice = getIntent().getStringExtra("foodtotalprice");
 
 
         txtFoodName = findViewById(R.id.txtFoodName);
@@ -58,69 +63,111 @@ public class FoodDetail extends AppCompatActivity {
         txtFoodName.setText(getIntent().getStringExtra("foodname"));
         txtFoodPrice.setText(getIntent().getStringExtra("foodprice"));
         txtDescription.setText(getIntent().getStringExtra("description"));
-        Glide.with(this)
-                .load(getIntent().getStringExtra("foodimage"))
-                .into(imgFoodDetails);
+        txtQuantity.setText(String.valueOf(foodQuantity));
+        Glide.with(this).load(getIntent().getStringExtra("foodimage")).into(imgFoodDetails);
 
         btnAddToCart = findViewById(R.id.btnAddToCart);
 
 
         sharedPreferences = getSharedPreferences("shopping_cart", MODE_PRIVATE);
-        String productsJson = sharedPreferences.getString("cartProducts", "");
+        String productsJson = sharedPreferences.getString("cartProducts", "[]");
+//        sharedPreferences =getActivity().getSharedPreferences("shopping_cart", Context.MODE_PRIVATE);
+//        String productsJson = sharedPreferences.getString("cartProducts", null);
 
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                for (Repo product : productList) {
-                    if (product.getId() == foodId) {
-                        // Update the quantity
-                        product.setQuantity(product.getQuantity() + 1);
+                JSONArray itemList = null;
+                try {
+                    sharedPreferences = getSharedPreferences("shopping_cart", MODE_PRIVATE);
+                    String productsJson = sharedPreferences.getString("cartProducts", "[]");
+                    itemList = new JSONArray(productsJson);
 
-                        // Update the quantity TextView
-                        txtQuantity.setText(String.valueOf(product.getQuantity()));
-
-                        // Update the product price
-                        updateProductPrice(product);
-
-                        // Save the updated product list to SharedPreferences
-                        saveProductListToSharedPreferences(productList);
+                    if (itemList.length() == 0) {
+                        Toast.makeText(FoodDetail.this, "Pleas first add product to cart", Toast.LENGTH_SHORT).show();
                         return;
+                    } else {
+
+                        for (int i = 0; i < itemList.length(); i++) {
+                            JSONObject item = itemList.getJSONObject(i);
+                            String food_Id = item.getString("id");
+                            if (food_Id.equals(foodId)) {
+                                int foodQuantity = item.getInt("quantity") + 1;
+                                int price = Integer.parseInt(item.getString("price"));
+                                int totalPrice = foodQuantity * price;
+                                item.put("quantity", foodQuantity);
+                                item.put("totalprice", totalPrice);
+                                txtQuantity.setText(String.valueOf(foodQuantity));
+
+                                // Save the updated list to SharedPreferences
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("cartProducts", itemList.toString());
+                                editor.apply();
+
+                                return;
+                            }
+
+
+                        }
                     }
-                    // if product  does not exist in the list Toast message to first add the product
-                    Toast.makeText(FoodDetail.this, "Product does not exist in cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FoodDetail.this, "please first add product to cart", Toast.LENGTH_SHORT).show();
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(FoodDetail.this, "" + e, Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
                 }
-
-
             }
         });
         btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Repo product : productList) {
-                    if (product.getId() == foodId) {
-                        // quantity cannot be less than 1
-                        if (product.getQuantity() == 1) {
-                            Toast.makeText(FoodDetail.this, "Quantity cannot be less than 1", Toast.LENGTH_SHORT).show();
-                            return;
+
+                JSONArray itemList = null;
+
+                try {
+                    sharedPreferences = getSharedPreferences("shopping_cart", MODE_PRIVATE);
+                    String productsJson = sharedPreferences.getString("cartProducts", "[]");
+                    itemList = new JSONArray(productsJson);
+
+                    if (itemList.length() == 0) {
+                        Toast.makeText(FoodDetail.this, "Please first add product to cart", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        for (int i = 0; i < itemList.length(); i++) {
+                            JSONObject item = itemList.getJSONObject(i);
+                            String food_Id = item.getString("id");
+                            if (food_Id.equals(foodId)) {
+                                int foodQuantity = item.getInt("quantity") - 1;
+//                                Toast.makeText(FoodDetail.this, "Quantity cannot be less than 1", Toast.LENGTH_SHORT).show();
+                                if (foodQuantity >= 1) {
+                                    int price = Integer.parseInt(item.getString("price"));
+                                    int totalPrice = foodQuantity * price;
+                                    item.put("quantity", foodQuantity);
+                                    item.put("totalprice", totalPrice);
+                                    txtQuantity.setText(String.valueOf(foodQuantity));
+
+                                    // Save the updated list to SharedPreferences
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("cartProducts", itemList.toString());
+                                    editor.apply();
+                                    return;
+                                }
+                                return;
+                            } else {
+                                Toast.makeText(FoodDetail.this, "please first add product to cart", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        // Update the quantity
-                        product.setQuantity(product.getQuantity() - 1);
-
-                        // Update the quantity TextView
-                        txtQuantity.setText(String.valueOf(product.getQuantity()));
-
-                        // Update the product price
-                        updateProductPrice(product);
-
-                        // Save the updated product list to SharedPreferences
-                        saveProductListToSharedPreferences(productList);
-                        Toast.makeText(FoodDetail.this, ""+productList, Toast.LENGTH_SHORT).show();
-                        return;
                     }
-                    // if product  does not exist in the list Toast message to first add the product
-                    Toast.makeText(FoodDetail.this, "Product does not exist in cart", Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    Toast.makeText(FoodDetail.this, "" + e, Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
+
                 }
+
             }
         });
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
@@ -146,34 +193,51 @@ public class FoodDetail extends AppCompatActivity {
 //                Toast.makeText(FoodDetail.this, "Product added successfully", Toast.LENGTH_SHORT).show();
 
 //                 Get the existing products from SharedPreferences
+                JSONArray itemList = null;
+
+                try {
+                    sharedPreferences = getSharedPreferences("shopping_cart", MODE_PRIVATE);
+                    String productsJson = sharedPreferences.getString("cartProducts", "[]");
+                    itemList = new JSONArray(productsJson);
+                    for (int i = 0; i < itemList.length(); i++) {
+                        JSONObject item = itemList.getJSONObject(i);
+                        String food_Id = item.getString("id");
+                        if (food_Id.equals(foodId)) {
+                            Toast.makeText(FoodDetail.this, "Product already exists", Toast.LENGTH_SHORT).show();
+
+                            return;
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(FoodDetail.this, "" + e, Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
+                }
+
+
                 Gson gson = new Gson();
 //
 
                 List<Repo> products = new ArrayList<>();
                 if (!productsJson.isEmpty()) {
-                    Type type = new TypeToken<List<Repo>>() {}.getType();
+                    Type type = new TypeToken<List<Repo>>() {
+                    }.getType();
                     products = gson.fromJson(productsJson, type);
 
                 }
-                for (Repo product : products) {
-                    if (product.getId() == foodId) {
-                        Toast.makeText(FoodDetail.this, "Product already exists", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-                Repo product1 = new Repo(foodId, foodName, foodPrice, foodImage, foodQuantity);
+
+                Repo product1 = new Repo(foodId, foodName, foodPrice, foodImage, foodQuantity, foodTotalprice);
                 products.add(product1);
                 String updatedProductsJson = gson.toJson(products);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("cartProducts", updatedProductsJson);
                 editor.apply();
 
-                Toast.makeText(FoodDetail.this, "Product added to cart", Toast.LENGTH_SHORT).show();
-                Toast.makeText(FoodDetail.this, ""+ productsJson, Toast.LENGTH_SHORT).show();
+
+//                Toast.makeText(FoodDetail.this, ""+ productsJson, Toast.LENGTH_SHORT).show();
                 // Add the new product to the cart
 //                boolean productExists = false;
                 /// loop through the shared preferences list of productsJson
-
 
 
 //                for (Repo product : products) {
@@ -194,9 +258,7 @@ public class FoodDetail extends AppCompatActivity {
 //                Toast.makeText(FoodDetail.this, ""+food, Toast.LENGTH_SHORT).show();
 
 
-
 //                 Save the updated products to SharedPreferences
-
 
 
             }
@@ -249,7 +311,6 @@ public class FoodDetail extends AppCompatActivity {
             // update the price TextView
 //            txtFoodPrice.setText(String.valueOf(newPrice));
 //            creat textview for price lable "price" and set it to the price
-
 
 
             txtDescription.setText(String.valueOf(newPrice));

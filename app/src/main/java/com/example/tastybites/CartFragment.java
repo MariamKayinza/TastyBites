@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,14 +76,31 @@ public class CartFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         RecyclerView recycler_view_cart = view.findViewById(R.id.recycler_view_cart);
-//      L
+//        prefs =getActivity().getSharedPreferences("shopping_cart", Context.MODE_PRIVATE);
+//        String productsJson = prefs.getString("cartProducts", null);
+
+
 //        GridLayoutManager gridLayoutManager=new GridLayoutManager(getActivity(),2);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recycler_view_cart.setLayoutManager(linearLayoutManager);
 //        response_recycler_view.setLayoutManager(gridLayoutManager);
         Gson gson = new Gson();
         sharedPreferences =getActivity().getSharedPreferences("shopping_cart", Context.MODE_PRIVATE);
-        String productsJson = sharedPreferences.getString("cartProducts", "");
+        String productsJson = sharedPreferences.getString("cartProducts", null);
+        try {
+
+            if (productsJson==null) {
+                // No signature found, replace the linear layout with another layout
+                // Inflate the new layout
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentlayout, new CartEmptyFragment());
+                fragmentTransaction.commit();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 //        Type type = new TypeToken<List<Repo>>() {}.getType();
@@ -94,12 +113,14 @@ public class CartFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Cancel", Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
                 // back to  home activity
-                Intent intent = new Intent(CartFragment.this, HomeFragement.class);
+                Intent intent = new Intent( getActivity(), Home.class);
+                startActivity(intent);
+                // FINISH
+                getActivity().finish();
 
             }
         });
@@ -107,24 +128,26 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Checkout", Toast.LENGTH_SHORT).show();
-                try {
-                    SharedPreferences prefs = getActivity().getSharedPreferences("signature", Context.MODE_PRIVATE);
-                    String restoredText = prefs.getString( "signature", null);
+                Intent intent = new Intent(getActivity(), FoodDetail.class);
+                startActivity(intent);
+//                try {
+//                    SharedPreferences prefs = getActivity().getSharedPreferences("signature", Context.MODE_PRIVATE);
+//                    String restoredText = prefs.getString( "signature", null);
+////
 //
-
-                    if (restoredText != null) {
-                        Toast toast = Toast.makeText(getActivity(), restoredText, Toast.LENGTH_SHORT);
-                        Intent intent = new Intent(getActivity(), FoodDetail.class);
-                        startActivity(intent);
-                        return;
-
-                    }else {
-                        Intent intent = new Intent(getActivity(), Login.class);
-                        startActivity(intent);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                    if (restoredText != null) {
+//                        Toast toast = Toast.makeText(getActivity(), restoredText, Toast.LENGTH_SHORT);
+//                        Intent intent = new Intent(getActivity(), FoodDetail.class);
+//                        startActivity(intent);
+//                        return;
+//
+//                    }else {
+//                        Intent intent = new Intent(getActivity(), Login.class);
+//                        startActivity(intent);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 //        for (int j = 0; j < products.size(); j++) {
@@ -143,7 +166,7 @@ public class CartFragment extends Fragment {
 //
 //        }
         recyclerView.setAdapter(new RecyclerViewCartAdapter(products, getActivity()));
-        Toast.makeText(getActivity(), ""+productsJson, Toast.LENGTH_SHORT).show();
+
         return view;
     }
 }
