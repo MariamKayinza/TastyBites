@@ -134,6 +134,7 @@ public class Register extends AppCompatActivity {
                                             // move to the OTP activity
                                             Intent intent = new Intent(Register.this, OTP.class);
                                             startActivity(intent);
+                                            finish();
 
                                        }catch (JSONException e){
                                            e.printStackTrace();

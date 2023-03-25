@@ -37,17 +37,12 @@ public class Home extends AppCompatActivity {
     private RestaurantsList restaurantsListFragement;
     private ProfileFragment profileFragment;
 
-    private  static  final  int REQUEST_ENABLE_LOCATION =1;
-
-
-
+    private static final int REQUEST_ENABLE_LOCATION = 1;
 
 
     TextView home_welcome_text;
     private SharedPreferences prefs;
     private SharedPreferences.Editor edit;
-
-
 
 
     @SuppressLint("ResourceType")
@@ -61,21 +56,28 @@ public class Home extends AppCompatActivity {
         //? Check if location services are enabled, and show a popup to enable them if not
 
 
-
-
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottomNavigationView);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         FrameLayout fragmentLayout = findViewById(R.id.fragmentlayout);
         homeFragement = new HomeFragement();
-        restaurantsListFragement =new RestaurantsList();
+        restaurantsListFragement = new RestaurantsList();
         profileFragment = new ProfileFragment();
         InitializerFragement(homeFragement);
+        String from = getIntent().getStringExtra("from");
+        if (from != null) {
+            if (from.equals("cart")) {
+                InitializerFragement(new CartFragment());
+                bottomNavigationView.setSelectedItemId(R.id.cart_menu);
+            }
+        } else {
+            InitializerFragement(homeFragement);
+        }
+
 
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                switch(item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.home_menu:
                         InitializerFragement(homeFragement);
                         return true;
@@ -117,7 +119,7 @@ public class Home extends AppCompatActivity {
                 //? GET USER DATA FROM SHARED PREFERENCES
                 try {
                     prefs = getSharedPreferences("user", MODE_PRIVATE);
-                    String restoredText = prefs.getString( "signature", null);
+                    String restoredText = prefs.getString("signature", null);
                     Toast toast = Toast.makeText(Home.this, restoredText, Toast.LENGTH_SHORT);
 
                     if (restoredText != null) {
@@ -130,17 +132,27 @@ public class Home extends AppCompatActivity {
                                     case R.id.logout:
                                         //? CLEAR SHARED PREFERENCES
                                         prefs = getSharedPreferences("user", MODE_PRIVATE);
-
+                                        SharedPreferences sharedPreferences = getSharedPreferences("shopping_cart", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = prefs.edit();
+                                        SharedPreferences.Editor editor_Cart = sharedPreferences.edit();
+
                                         editor.remove("signature");
                                         editor.remove("firstName");
-//                                        home_welcome_text.setText("Welcome " + "Guest");
+                                        editor_Cart.remove("cartProducts");
+
+
                                         editor.commit();
+                                        prefs.edit().clear().apply();
+                                        sharedPreferences.edit().clear().apply();
+                                        String productsJson = sharedPreferences.getString("cartProducts", null);
+                                        Toast.makeText(Home.this, ""+productsJson, Toast.LENGTH_SHORT).show();
+
 
 
                                         //? RESTART ACTIVITY
                                         startActivity(new Intent(getApplicationContext(), Login.class));
-                                        overridePendingTransition(0,0);
+                                        finish();
+                                        overridePendingTransition(0, 0);
                                         return true;
                                     default:
                                         return false;
@@ -149,8 +161,7 @@ public class Home extends AppCompatActivity {
                         });
                         // Showing the popup menu
                         popupMenu.show();
-                    }
-                    else{
+                    } else {
                         //? IF USER IS NOT LOGGED IN THEN SHOW LOGIN AND REGISTER BUTTON
                         popupMenu.getMenuInflater().inflate(R.menu.account, popupMenu.getMenu());
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -158,12 +169,12 @@ public class Home extends AppCompatActivity {
                             public boolean onMenuItemClick(MenuItem menuItem) {
                                 switch (menuItem.getItemId()) {
                                     case R.id.login:
-                                        startActivity(new Intent(getApplicationContext(),Login.class));
-                                        overridePendingTransition(0,0);
+                                        startActivity(new Intent(getApplicationContext(), Login.class));
+                                        overridePendingTransition(0, 0);
                                         return true;
                                     case R.id.register:
-                                        startActivity(new Intent(getApplicationContext(),Register.class));
-                                        overridePendingTransition(0,0);
+                                        startActivity(new Intent(getApplicationContext(), Register.class));
+                                        overridePendingTransition(0, 0);
                                         return true;
                                     default:
                                         return false;
@@ -186,57 +197,59 @@ public class Home extends AppCompatActivity {
         }
         //! ALLOW TASTY BITES ACCESS LOCATION (How to request Location permission at run time in Android?)
         if (ContextCompat.checkSelfPermission(Home.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(Home.this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)){
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
                 ActivityCompat.requestPermissions(Home.this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }else{
+            } else {
                 ActivityCompat.requestPermissions(Home.this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }
 
-//! Prompot to turn on location
-        private void showLocationSettingsPopup() {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-            dialogBuilder.setTitle("Enable Location Services");
-            dialogBuilder.setMessage("Location services need to be enabled to use this feature. Please enable location services in your device settings.");
-            dialogBuilder.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivityForResult(settingsIntent, REQUEST_ENABLE_LOCATION);
-                }
-            });
-            dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    // Handle cancel button click
-                }
-            });
-            AlertDialog dialog = dialogBuilder.create();
-            dialog.show();
-        }
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == REQUEST_ENABLE_LOCATION) {
-                // Check if the user enabled location services, and show a popup if they didn't
-                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showLocationSettingsPopup();
-                }
+    //! Prompot to turn on location
+    private void showLocationSettingsPopup() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Enable Location Services");
+        dialogBuilder.setMessage("Location services need to be enabled to use this feature. Please enable location services in your device settings.");
+        dialogBuilder.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivityForResult(settingsIntent, REQUEST_ENABLE_LOCATION);
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Handle cancel button click
+            }
+        });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ENABLE_LOCATION) {
+            // Check if the user enabled location services, and show a popup if they didn't
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                showLocationSettingsPopup();
             }
         }
+    }
 
-//!    Navigation for Fragements
-    private void InitializerFragement(Fragment fragment){
+    //!    Navigation for Fragements
+    private void InitializerFragement(Fragment fragment) {
         FragmentTransaction fragementTransaction = getSupportFragmentManager().beginTransaction();
         fragementTransaction.replace(R.id.fragmentlayout, fragment);
         fragementTransaction.commit();
     }
+
     public void setFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

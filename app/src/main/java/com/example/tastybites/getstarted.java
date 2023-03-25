@@ -1,10 +1,10 @@
 package com.example.tastybites;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class getstarted extends AppCompatActivity {
 
@@ -22,6 +22,7 @@ public class getstarted extends AppCompatActivity {
         btn_get_started.setOnClickListener(v -> {
             Intent intent = new Intent(getstarted.this, Home.class);
             startActivity(intent);
+            finish();
         });
 
     }

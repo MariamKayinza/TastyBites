@@ -1,5 +1,8 @@
 package com.example.tastybites;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -37,6 +40,9 @@ public class CartFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor edit;
+    private Button plusBtnCart, minusBtnCart, removeBtnCart;
 
     public CartFragment() {
         // Required empty public constructor
@@ -70,6 +76,7 @@ public class CartFragment extends Fragment {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,12 +91,12 @@ public class CartFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recycler_view_cart.setLayoutManager(linearLayoutManager);
 //        response_recycler_view.setLayoutManager(gridLayoutManager);
-        Gson gson = new Gson();
-        sharedPreferences =getActivity().getSharedPreferences("shopping_cart", Context.MODE_PRIVATE);
-        String productsJson = sharedPreferences.getString("cartProducts", null);
-        try {
+//        Gson gson = new Gson();
 
-            if (productsJson==null) {
+        try {
+            sharedPreferences = getActivity().getSharedPreferences("shopping_cart", Context.MODE_PRIVATE);
+            String productsJson = sharedPreferences.getString("cartProducts", null);
+            if (productsJson == null) {
                 // No signature found, replace the linear layout with another layout
                 // Inflate the new layout
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -97,39 +104,82 @@ public class CartFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragmentlayout, new CartEmptyFragment());
                 fragmentTransaction.commit();
             }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+            else{
+                Gson gson = new Gson();
+//                products = gson.fromJson(productsJson, new TypeToken<List<Repo>>() {
+//                }.getType());
+                List<Repo> products = new Gson().fromJson(productsJson, new TypeToken<List<Repo>>() {
+                }.getType());
+                RecyclerView recyclerView = view.findViewById(R.id.recycler_view_cart);
+                Button checkout = view.findViewById(R.id.CHECKOUT);
+                Button cancel = view.findViewById(R.id.CANCEL);
+                plusBtnCart = view.findViewById(R.id.plusBtnCart);
+                minusBtnCart = view.findViewById(R.id.minBtnCart);
+                TextView totalPrice = view.findViewById(R.id.totalPrice);
+
+                // total price for all products in cart
+                totalPrice.setText(String.valueOf(getTotalPrice(products)));
 
 
-//        Type type = new TypeToken<List<Repo>>() {}.getType();
-//        products = gson.fromJson(productsJson, type);
-        List<Repo> products = new Gson().fromJson(productsJson, new TypeToken<List<Repo>>() {}.getType());
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_cart);
-        Button checkout = view.findViewById(R.id.CHECKOUT);
-        Button cancel = view.findViewById(R.id.CANCEL);
-        // on click listener clear  shared preferences
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
-                // back to  home activity
-                Intent intent = new Intent( getActivity(), Home.class);
-                startActivity(intent);
-                // FINISH
-                getActivity().finish();
+                // on click listener clear  shared preferences
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        // back to  home activity
+                        Intent intent = new Intent(getActivity(), Home.class);
+                        startActivity(intent);
+                        // FINISH
+                        getActivity().finish();
 
-            }
-        });
-        checkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Checkout", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), FoodDetail.class);
-                startActivity(intent);
+                    }
+                });
+                prefs = requireContext().getSharedPreferences("user", MODE_PRIVATE);
+                String restoredText = prefs.getString("signature", null);
+                String firstName = prefs.getString("firstName", null);
+
+
+                checkout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent;
+                        if (firstName == null) {
+                            // got login activity
+                            intent = new Intent(getActivity(), Login.class);
+
+                            intent.putExtra("from", "cart");
+                            startActivity(intent);
+
+
+                        } else {
+
+                            intent = new Intent(getActivity(), ShippingAdressActivity.class);
+
+                            startActivity(intent);
+
+                        }
+
+//                if (firstName == null) {
+//                    // got login activity
+//                    intent = new Intent(getActivity(), ShippingAdressActivity.class);
+//                    startActivity(intent);
+//                    return;
+//                }
+//                if (restoredText != null) {
+//                    // got checkout activity
+//                    intent = new Intent(getActivity(), ShippingAdressActivity.class);
+//                    startActivity(intent);
+//                    return;
+//                }
+                        // got checkout activity
+//                intent = new Intent(getActivity(), CheckoutActivity.class);
+
+
+//                startActivity(intent);
+
+
 //                try {
 //                    SharedPreferences prefs = getActivity().getSharedPreferences("signature", Context.MODE_PRIVATE);
 //                    String restoredText = prefs.getString( "signature", null);
@@ -148,8 +198,8 @@ public class CartFragment extends Fragment {
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
-            }
-        });
+                    }
+                });
 //        for (int j = 0; j < products.size(); j++) {
 //
 //            String id = products.get(j).getId();
@@ -165,8 +215,26 @@ public class CartFragment extends Fragment {
 //
 //
 //        }
-        recyclerView.setAdapter(new RecyclerViewCartAdapter(products, getActivity()));
+                recyclerView.setAdapter(new RecyclerViewCartAdapter(products, getActivity()));
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+//        Type type = new TypeToken<List<Repo>>() {}.getType();
+//
         return view;
+    }
+
+    private char[] getTotalPrice(List<Repo> products) {
+        int totalPrice = 0;
+        for (int i = 0; i < products.size(); i++) {
+            int price = Integer.parseInt(products.get(i).getPrice());
+            int quantity = products.get(i).getQuantity();
+            totalPrice += price * quantity;
+        }
+        return String.valueOf(totalPrice).toCharArray();
     }
 }

@@ -81,7 +81,7 @@ public class OTP extends AppCompatActivity {
                                     otp = otp1.getText().toString() + otp2.getText().toString() + otp3.getText().toString() + otp4.getText().toString() + otp5.getText().toString() + otp6.getText().toString();
                                     jsonObject.put("otp", otp);
 
-                                    Toast.makeText(OTP.this, "OTP is" + jsonObject, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(OTP.this, "OTP is" + jsonObject, Toast.LENGTH_SHORT).show();
                                     RequestQueue queue = Volley.newRequestQueue(OTP.this);
 //
                                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url, jsonObject,
@@ -95,7 +95,7 @@ public class OTP extends AppCompatActivity {
                                                     } catch (JSONException e) {
                                                         throw new RuntimeException(e);
                                                     }
-                                                    Toast.makeText(OTP.this, ""+ response, Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(OTP.this, ""+ response, Toast.LENGTH_SHORT).show();
                                                         if (status.equals("true")) {
                                                             // move to home activity
                                                             Toast.makeText(OTP.this, "OTP is correct", Toast.LENGTH_SHORT).show();
@@ -110,6 +110,7 @@ public class OTP extends AppCompatActivity {
                                                             }
                                                             Intent intent = new Intent(OTP.this, Home.class);
                                                             startActivity(intent);
+                                                            finish();
                                                         } else {
                                                             Toast.makeText(OTP.this, "OTP is incorrect", Toast.LENGTH_SHORT).show();
                                                         }

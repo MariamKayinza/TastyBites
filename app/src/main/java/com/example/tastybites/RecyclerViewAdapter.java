@@ -1,5 +1,6 @@
 package com.example.tastybites;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -78,7 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 //        holder.setId_field(String.valueOf(retrievedResponses.get(position).getId()));
         holder.setAddress_field(String.valueOf(retrievedResponses.get(position).getAddress()));
         holder.setRating_field(String.valueOf(retrievedResponses.get(position).getRating()));
@@ -90,6 +91,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View v) {
                 int postion = holder.getAdapterPosition();
                 Intent intent = new Intent(context,RestaurantDetail.class);
+                intent.putExtra("name",retrievedResponses.get(position).getName());
+                intent.putExtra("address",retrievedResponses.get(position).getAddress());
+                intent.putExtra("rating",retrievedResponses.get(position).getRating());
+                intent.putExtra("image",retrievedResponses.get(position).getImage());
+
+
                 context.startActivity(intent);
 
             }

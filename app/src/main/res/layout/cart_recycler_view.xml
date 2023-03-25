@@ -57,7 +57,21 @@
                 app:layout_constraintStart_toEndOf="@+id/picCart"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+<!--            <ImageView-->
+<!--                android:id="@+id/minBtnCart"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/picCart"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/numItems"-->
+<!--                app:layout_constraintHorizontal_bias="0.0"-->
+<!--                app:layout_constraintHorizontal_chainStyle="packed"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/picCart"-->
+<!--                app:srcCompat="@drawable/ic_minus" />-->
+            <TextView
+                android:text="Qty"
+                android:textColor="#373b54"
                 android:id="@+id/minBtnCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,17 +81,17 @@
                 app:layout_constraintEnd_toStartOf="@+id/numItems"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/picCart"
-                app:srcCompat="@drawable/ic_minus" />
+                app:layout_constraintStart_toEndOf="@+id/picCart" />
 
             <ImageView
                 android:id="@+id/plusBtnCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/picCart"
                 app:layout_constraintStart_toEndOf="@+id/numItems"
                 app:srcCompat="@drawable/ic_plus" />
+<!--            Qty-->
 
             <TextView
                 android:id="@+id/numItems"

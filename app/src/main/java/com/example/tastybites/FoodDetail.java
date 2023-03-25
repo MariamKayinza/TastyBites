@@ -1,5 +1,6 @@
 package com.example.tastybites;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +52,7 @@ public class FoodDetail extends AppCompatActivity {
         String foodImage = getIntent().getStringExtra("foodimage");
         int foodQuantity = getIntent().getIntExtra("foodquantity", 0);
         String foodTotalprice = getIntent().getStringExtra("foodtotalprice");
+        getCurrentQuantity(foodId);
 
 
         txtFoodName = findViewById(R.id.txtFoodName);
@@ -67,6 +69,16 @@ public class FoodDetail extends AppCompatActivity {
         Glide.with(this).load(getIntent().getStringExtra("foodimage")).into(imgFoodDetails);
 
         btnAddToCart = findViewById(R.id.btnAddToCart);
+
+        txtFoodName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // go to the home fragment from  the detail Activity
+                  Intent intent = new Intent(FoodDetail.this, Home.class);
+                    startActivity(intent);
+
+            }
+        });
 
 
         sharedPreferences = getSharedPreferences("shopping_cart", MODE_PRIVATE);
@@ -156,8 +168,6 @@ public class FoodDetail extends AppCompatActivity {
                                     return;
                                 }
                                 return;
-                            } else {
-                                Toast.makeText(FoodDetail.this, "please first add product to cart", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -264,6 +274,29 @@ public class FoodDetail extends AppCompatActivity {
             }
         });
     }
+
+    private void getCurrentQuantity(String foodId) {
+        sharedPreferences = getSharedPreferences("shopping_cart", MODE_PRIVATE);
+        String productsJson = sharedPreferences.getString("cartProducts", "[]");
+        JSONArray itemList = null;
+        try {
+            itemList = new JSONArray(productsJson);
+            for (int i = 0; i < itemList.length(); i++) {
+                JSONObject item = itemList.getJSONObject(i);
+                String food_Id = item.getString("id");
+                if (food_Id.equals(foodId)) {
+                    int foodQuantity = item.getInt("quantity");
+                    TextView txtQuantity = findViewById(R.id.txtNum);
+                    txtQuantity.setText(String.valueOf(foodQuantity));
+                    return;
+                }
+            }
+        } catch (JSONException e) {
+            Toast.makeText(FoodDetail.this, "" + e, Toast.LENGTH_SHORT).show();
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private void saveProductListToSharedPreferences(List<Repo> productList) {
         // Convert the list of products to a JSON string

@@ -2,6 +2,7 @@ package com.example.tastybites;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,10 +22,11 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
     private SelectListener listenerinterface;
 
 
-    public RecyclerViewCartAdapter(List<Repo> products, FragmentActivity activity) {
+    public RecyclerViewCartAdapter(List<Repo> products, Context context) {
         this.retrievedResponses = products;
         this.listenerinterface = listenerinterface;
         this.context = context;
+
 
 
     }
@@ -101,7 +102,11 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
         private ImageView image_field;
         private TextView totalprice_field;
 
-        TextView numItems;
+        private TextView numItems;
+//        private ImageView plusBtnCart;
+//        private ImageView minusBtnCart;
+
+
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -112,19 +117,35 @@ public class RecyclerViewCartAdapter extends RecyclerView.Adapter<RecyclerViewCa
             numItems = itemView.findViewById(R.id.numItems);
             totalprice_field = itemView.findViewById(R.id.totalEachItem);
             image_field = itemView.findViewById(R.id.picCart);
+//            plusBtnCart = itemView.findViewById(R.id.plusBtnCart);
+//            minusBtnCart = itemView.findViewById(R.id.minBtnCart);
 //            card_view = itemView.findViewById(R.id.card_view);
 
-//            image_field.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (listenerinterface != null) {
-//                        int position = getAdapterPosition();
-//                        if (position != RecyclerView.NO_POSITION) {
-//                            listenerinterface.onItemClicked(position);
-//                        }
-//                    }
-//                }
-//            });
+            image_field.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                if (v.getContext() != null) {
+                    Intent intent = new Intent(v.getContext(), FoodDetail.class);
+                    intent.putExtra("foodid",retrievedResponses.get(getAdapterPosition()).getId());
+                    intent.putExtra("foodname",retrievedResponses.get(getAdapterPosition()).getName());
+                    intent.putExtra("foodimage",retrievedResponses.get(getAdapterPosition()).getImage());
+                    intent.putExtra("foodprice",retrievedResponses.get(getAdapterPosition()).getPrice());
+                    intent.putExtra("foodquantity",retrievedResponses.get(getAdapterPosition()).getQuantity());
+                    intent.putExtra("foodtotalprice",retrievedResponses.get(getAdapterPosition()).getTotalprice());
+                    v.getContext().startActivity(intent);
+                    // onclick of the persons  back button go back to home fragment
+
+
+//                    Navigation.findNavController(fragment.getView()).popBackStack(R.id.homeFragment, false);
+
+
+                    // kill the fragment
+//                    ((Activity)context).finish();
+                }
+            }});
+
+
+
         }
 
         public void setName_field(String name) {

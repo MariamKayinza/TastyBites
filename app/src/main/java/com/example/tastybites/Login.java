@@ -100,7 +100,7 @@ public class Login extends AppCompatActivity {
                 }
 
                 // print the json body
-                Toast.makeText(Login.this, "this is the" + jsonBody, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Login.this, "this is the" + jsonBody, Toast.LENGTH_SHORT).show();
                 // send in a POST REQUEST in a JSON format
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                         new Response.Listener<JSONObject>() {
@@ -119,15 +119,33 @@ public class Login extends AppCompatActivity {
                             edit = prefs.edit();
                             edit.putString("signature", signature);
                             edit.putString("firstName",first_name);
+                            edit.putString("email",email);
                             edit.commit();
 
                             // MOVE TO HOME ACTIVITY
                             String name = prefs.getString("firstName", "");
-                            Toast.makeText(Login.this, ">" +name, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Login.this, ">" +name, Toast.LENGTH_SHORT).show();
 
 
-                            Intent intent = new Intent(Login.this, Home.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(Login.this, Home.class);
+//                            startActivity(intent);
+//                            finish();
+                            String from = getIntent().getStringExtra("from");
+                            if (from != null) {
+                                if (from.equals("cart")) {
+                                    // move to cart Fragment
+                                    Intent intent1 = new Intent(Login.this, Home.class);
+                                    intent1.putExtra("from", "cart");
+                                    startActivity(intent1);
+                                    finish();
+                                }
+                            }else {
+                                // move to home activity
+                                Intent intent1 = new Intent(Login.this, Home.class);
+                                startActivity(intent1);
+                                finish();
+                            }
+
 
 
                         } catch (JSONException e) {
