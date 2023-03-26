@@ -2,11 +2,13 @@ package com.example.tastybites;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +53,8 @@ public class ProfileFragment extends Fragment {
     TextView fullnameText;
     TextView phoneText;
     TextView emailText;
+
+    Button orderstatus;
 
     String endpoint = MainActivity.Constants.API_ENDPOINT;
     public ProfileFragment() {
@@ -114,7 +118,15 @@ public class ProfileFragment extends Fragment {
         phoneText = view.findViewById(R.id.phonenumber);
         emailText = view.findViewById(R.id.email);
         fullnameText = view.findViewById(R.id.fullname);
+        orderstatus = view.findViewById(R.id.orderstatus);
+        orderstatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OrderStatusActivity.class);
+                startActivity(intent);
 
+            }
+        });
 
         edit = prefs.edit();
         textView.setText("Welcome " + firstName);

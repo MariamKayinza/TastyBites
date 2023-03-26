@@ -49,6 +49,9 @@ public class ShippingAdressActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         addNewAddressButton = findViewById(R.id.addNewAddress);
+
+        Intent intent = getIntent();
+        String total_price = intent.getStringExtra("total_price");
         addNewAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +65,11 @@ public class ShippingAdressActivity extends AppCompatActivity {
                 getLocation();
                 // got to checkout activity
                 Intent intent = new Intent(ShippingAdressActivity.this, CheckoutActivity.class);
+
+                intent.putExtra("total_price", total_price);
+
+
+
                 startActivity(intent);
 
 //                if (ActivityCompat.checkSelfPermission(ShippingAdressActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&

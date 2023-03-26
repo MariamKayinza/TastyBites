@@ -138,6 +138,7 @@ public class Home extends AppCompatActivity {
 
                                         editor.remove("signature");
                                         editor.remove("firstName");
+                                        editor.remove("email");
                                         editor_Cart.remove("cartProducts");
 
 

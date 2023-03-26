@@ -27,7 +27,7 @@ public class Register extends AppCompatActivity {
     SharedPreferences.Editor edit;
 
     TextView already_have_account;
-    Button register_button;
+    Button register_button, cancel_register_button;
     RequestQueue queue;
     TextView emailEdit;
     TextView phoneEdit;
@@ -85,6 +85,16 @@ public class Register extends AppCompatActivity {
                 }
         );
         register_button = findViewById(R.id.register_button);
+        cancel_register_button = findViewById(R.id.cancel_register_button);
+        cancel_register_button.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Register.this, Login.class);
+                        startActivity(intent);
+                    }
+                }
+        );
         register_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

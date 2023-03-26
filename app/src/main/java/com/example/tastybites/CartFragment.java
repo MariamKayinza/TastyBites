@@ -119,6 +119,10 @@ public class CartFragment extends Fragment {
 
                 // total price for all products in cart
                 totalPrice.setText(String.valueOf(getTotalPrice(products)));
+                // store total price in shared preferences
+
+                // set adapter
+
 
 
                 // on click listener clear  shared preferences
@@ -147,7 +151,10 @@ public class CartFragment extends Fragment {
                         Intent intent;
                         if (firstName == null) {
                             // got login activity
+
+
                             intent = new Intent(getActivity(), Login.class);
+
 
                             intent.putExtra("from", "cart");
                             startActivity(intent);
@@ -156,6 +163,8 @@ public class CartFragment extends Fragment {
                         } else {
 
                             intent = new Intent(getActivity(), ShippingAdressActivity.class);
+                            // send total price to shipping activity
+                            intent.putExtra("total_price", String.valueOf(getTotalPrice(products)));
 
                             startActivity(intent);
 

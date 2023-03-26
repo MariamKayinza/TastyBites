@@ -23,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
-    Button login_button;
+    Button login_button, cancel_button;
     TextInputEditText emailEdit;
     TextInputEditText passwordEdit;
     TextView donot_have_account;
@@ -31,7 +31,8 @@ public class Login extends AppCompatActivity {
     SharedPreferences prefs;
     SharedPreferences.Editor edit;
 
-    private String BASE_URL="https://tastybites-1.onrender.com";
+    private String BASE_URL = "https://tastybites-1.onrender.com";
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class Login extends AppCompatActivity {
             Toast.makeText(this, signature, Toast.LENGTH_SHORT).show();
             if (signature != null) {
                 // move to home activity
-                Intent intent = new Intent( Login.this, Home.class);
+                Intent intent = new Intent(Login.this, Home.class);
                 startActivity(intent);
                 finish();
             }
@@ -58,24 +59,29 @@ public class Login extends AppCompatActivity {
         }
 
 
+        emailEdit = findViewById(R.id.email_edit_text);
+        passwordEdit = findViewById(R.id.password_edit_text);
 
-
-
-         emailEdit= findViewById(R.id.email_edit_text);
-         passwordEdit = findViewById(R.id.password_edit_text);
-
-         donot_have_account = findViewById(R.id.login_donot_have_account_text_view);
-            donot_have_account.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        donot_have_account = findViewById(R.id.login_donot_have_account_text_view);
+        donot_have_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                   Move to Register Activity
-                    Intent intent = new Intent(Login.this, Register.class);
-                    startActivity(intent);
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
 
-                }
-            });
+            }
+        });
 
         login_button = findViewById(R.id.login_button);
+        cancel_button = findViewById(R.id.cancel_button);
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Home.class);
+                startActivity(intent);
+            }
+        });
 
 
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +93,7 @@ public class Login extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(Login.this);
 //                String url = "https://tastybites-1.onrender.com/customer/login";
                 String endpoint = MainActivity.Constants.API_ENDPOINT;
-                String url =  endpoint + "/customer/login";
+                String url = endpoint + "/customer/login";
 
                 // send in a POST REQUEST
                 JSONObject jsonBody = new JSONObject();
@@ -104,70 +110,79 @@ public class Login extends AppCompatActivity {
                 // send in a POST REQUEST in a JSON format
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                         new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-//                        Toast.makeText(Login.this, "Response is: "+ response, Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onResponse(JSONObject response) {
+//                                Toast.makeText(Login.this, "Response is: " + response, Toast.LENGTH_SHORT).show();
+//                        msg: "Error With Signup"
 
-                        // STORE SIGNATURE IN SHARED PREFERENCES
-                        String signature = null;
-                        String first_name = null;
-                        try {
 
-                            prefs = getSharedPreferences("user", MODE_PRIVATE);
-                            signature = response.getString("signature");
-                            first_name = response.getString("firstName");
-                            edit = prefs.edit();
-                            edit.putString("signature", signature);
-                            edit.putString("firstName",first_name);
-                            edit.putString("email",email);
-                            edit.commit();
+                                // STORE SIGNATURE IN SHARED PREFERENCES
+                                String signature = null;
+                                String first_name = null;
+                                try {
+                                    if (response.getString("msg").equals("Error With Signup")) {
+                                        Toast.makeText(Login.this, "Error With Signup", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else if (response.getString("msg").equals("Please Verify your account")) {
+                                        Toast.makeText(Login.this, "Error With Login", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else {
 
-                            // MOVE TO HOME ACTIVITY
-                            String name = prefs.getString("firstName", "");
+                                        prefs = getSharedPreferences("user", MODE_PRIVATE);
+                                        signature = response.getString("signature");
+                                        first_name = response.getString("firstName");
+                                        edit = prefs.edit();
+                                        edit.putString("signature", signature);
+                                        edit.putString("firstName", first_name);
+                                        edit.putString("email", email);
+                                        edit.commit();
+
+                                        // MOVE TO HOME ACTIVITY
+                                        String name = prefs.getString("firstName", "");
 //                            Toast.makeText(Login.this, ">" +name, Toast.LENGTH_SHORT).show();
 
 
 //                            Intent intent = new Intent(Login.this, Home.class);
 //                            startActivity(intent);
 //                            finish();
-                            String from = getIntent().getStringExtra("from");
-                            if (from != null) {
-                                if (from.equals("cart")) {
-                                    // move to cart Fragment
-                                    Intent intent1 = new Intent(Login.this, Home.class);
-                                    intent1.putExtra("from", "cart");
-                                    startActivity(intent1);
-                                    finish();
+                                        String from = getIntent().getStringExtra("from");
+                                        if (from != null) {
+                                            if (from.equals("cart")) {
+                                                // move to cart Fragment
+                                                Intent intent1 = new Intent(Login.this, Home.class);
+                                                intent1.putExtra("from", "cart");
+                                                startActivity(intent1);
+                                                finish();
+                                            }
+                                        } else {
+                                            // move to home activity
+                                            Intent intent1 = new Intent(Login.this, Home.class);
+                                            startActivity(intent1);
+                                            finish();
+                                        }
+                                    }
+
+//
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(Login.this, "this is the" + e, Toast.LENGTH_SHORT).show();
+                                    throw new RuntimeException(e);
+
                                 }
-                            }else {
-                                // move to home activity
-                                Intent intent1 = new Intent(Login.this, Home.class);
-                                startActivity(intent1);
-                                finish();
+
+
                             }
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(Login.this, "this is the" +e, Toast.LENGTH_SHORT).show();
-                            throw new RuntimeException(e);
-
-                        }
-
-
-
-
-                    }
-                }, new Response.ErrorListener() {
+                        }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Login.this, "this is the" +error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "this is the" + error, Toast.LENGTH_SHORT).show();
                     }
                 });
 
 
-                 // Request a string response from the provided URL.
+                // Request a string response from the provided URL.
 //                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 //                        new Response.Listener<String>() {
 //                            @Override
@@ -190,7 +205,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
-        }
-
     }
+
+}
 
